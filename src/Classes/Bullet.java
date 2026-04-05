@@ -1,5 +1,7 @@
 package Classes;
 
+import Components.CollisionDamageComponent;
+import Components.FractionComponent;
 import Components.MovementComponent;
 
 public class Bullet extends Entity {
@@ -9,9 +11,10 @@ public class Bullet extends Entity {
     }
 
     @Override
-    public void Start() {
-        AddComponent(new MovementComponent(this));
-        getComponent(MovementComponent.class).SetSpeed(5);
-
+    public void start() {
+        AddComponent(MovementComponent.class).setSpeed(5);
+        AddComponent(FractionComponent.class);
+        AddComponent(CollisionDamageComponent.class);
     }
+
 }

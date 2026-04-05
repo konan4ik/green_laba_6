@@ -7,13 +7,13 @@ import util.Vector2;
 public class ControlsComponent extends Component {
 
     public MovementComponent movementComponent;
-    public boolean isMoving;
 
     public ControlsComponent(Entity entity) {
         super(entity);
     }
 
-    public void Update()
+    @Override
+    public void update()
     {
         var direction = new Vector2(0,0 );
 
@@ -33,10 +33,10 @@ public class ControlsComponent extends Component {
             direction = direction.add(new Vector2(0, 1));
         }
 
-        movementComponent.SetDirection(direction);
+        movementComponent.setDirection(direction);
     }
 
-    public void Start() {
+    public void start() {
         movementComponent = entity.getComponent(MovementComponent.class);
     }
 }

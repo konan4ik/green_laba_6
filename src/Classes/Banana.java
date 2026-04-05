@@ -1,32 +1,22 @@
 package Classes;
 
-import Components.ControlsComponent;
-import Components.HealthComponent;
-import Components.MovementComponent;
+import Components.*;
+import util.FractionType;
 
 public class Banana extends Entity {
 
-    public HpCounter hpCounter;
-
-    public Banana(HpCounter hpCounter)
+    public Banana()
     {
         setImage("bananas.png");
-        this.hpCounter = hpCounter;
     }
 
     @Override
-    public void Start() {
-        AddComponent(new HealthComponent(this));
-        getComponent(HealthComponent.class).SetHealth(3);
-        AddComponent(new ControlsComponent(this));
-        AddComponent(new MovementComponent(this));
-        getComponent(ControlsComponent.class).Start();
-    }
-
-    public void act()
-    {
-        Update();
-        hpCounter.Update(getComponent(HealthComponent.class).GetHealth());
+    public void start() {
+        AddComponent(HealthComponent.class).setHealth(3);
+        AddComponent(MovementComponent.class);
+        AddComponent(ControlsComponent.class);
+        AddComponent(FractionComponent.class).setFraction(FractionType.Player);
+        AddComponent(PlayerFiringComponent.class).setTimer(30);
     }
 
 }

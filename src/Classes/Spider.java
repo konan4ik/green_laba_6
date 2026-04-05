@@ -1,8 +1,7 @@
 package Classes;
 
-import Components.AiComponent;
-import Components.CollisionDamageComponent;
-import Components.MovementComponent;
+import Components.*;
+import util.FractionType;
 
 public class Spider extends Entity {
 
@@ -12,23 +11,14 @@ public class Spider extends Entity {
     }
 
     @Override
-    public void Start() {
-        AddComponent(new MovementComponent(this));
-        AddComponent(new CollisionDamageComponent(this));
-        getComponent(CollisionDamageComponent.class).SetDmg(1);
-        AddComponent(new AiComponent(this));
-        getComponent(AiComponent.class).Start();
-    }
-
-    public void act()
-    {
-        if (getWorld() != null) {
-            try {
-                Update();
-            } catch (RuntimeException e){
-                System.out.println(e);
-            }
-        }
+    public void start() {
+        AddComponent(HealthComponent.class).setHealth(1);
+        AddComponent(MovementComponent.class).setSpeed(3);
+        AddComponent(CollisionDamageComponent.class);
+        AddComponent(TargetComponent.class);
+        AddComponent(PersecutionComponent.class);
+        AddComponent(FractionComponent.class).setFraction(FractionType.Enemy);
+        AddComponent(AiFiringComponent.class).setTimer(90);
     }
 
 }

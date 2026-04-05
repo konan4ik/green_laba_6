@@ -1,31 +1,31 @@
 package Components;
 
-import Classes.Banana;
 import Classes.Entity;
 
 public class CollisionDamageComponent extends Component {
-    public int damage;
+    public int damage = 1;
 
     public CollisionDamageComponent(Entity entity) {
         super(entity);
     }
 
-    public void Update() {
-        var subjects = entity.getWorld().getObjectsAt(entity.getX(), entity.getY(), Banana.class);
+    @Override
+    public void update() {
+        var subjects = entity.getWorld().getObjectsAt(entity.getX(), entity.getY(), Entity.class);
         if (subjects != null) {
             for (var subject : subjects) {
-                subject.getComponent(HealthComponent.class).DecreaseHealth(damage);
-                entity.getWorld().removeObject(entity);
+                if (subject.getComponent(FractionComponent.class) != null && subject.getComponent(HealthComponent.class) != null) {
+                    if (subject.getComponent(FractionComponent.class).getFraction() != entity.getComponent(FractionComponent.class).getFraction()) {
+                        subject.getComponent(HealthComponent.class).decreaseHealth(damage);
+                        entity.getWorld().removeObject(entity);
+                    }
+                }
             }
         }
     }
 
     public void SetDmg(int dmg) {
         damage = dmg;
-    }
-
-    public void Start() {
-
     }
 
 }

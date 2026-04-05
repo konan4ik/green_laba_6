@@ -1,39 +1,43 @@
 package Components;
 
 import Classes.Entity;
+import util.EmptyArg;
+import util.Event;
 
 public class HealthComponent extends Component {
-    public int health;
+    private int health;
+
+    public Event<EmptyArg> onDeath = new Event<>();
+    public Event<Integer> onHpChange = new Event<>();
 
     public HealthComponent(Entity entity) {
         super(entity);
     }
 
-    public void DecreaseHealth() {
-        health -= 1;
-    }
-
-    public void DecreaseHealth(int dmg) {
-        health -= dmg;
-    }
-
-    public void Update() {
-        if (health < 0) {
+    public void checkDeath() {
+        if (health <= 0) {
+            onDeath.invoke(new EmptyArg());
             var world = entity.getWorld();
             world.removeObject(entity);
+            onDeath.clear();
         }
     }
 
-    public void SetHealth(int hp) {
-        health = hp;
+    public void decreaseHealth(int dmg) {
+        health -= dmg;
+        onHpChange.invoke(health);
+        checkDeath();
     }
 
-    public int GetHealth() {
+    public void setHealth(int hp) {
+        health = hp;
+        onHpChange.invoke(health);
+        checkDeath();
+    }
+
+    public int getHealth() {
         return health;
     }
 
-    public void Start() {
-
-    }
 
 }
